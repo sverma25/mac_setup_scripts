@@ -9,7 +9,8 @@ This script installs and configures:
 
 - Xcode Command Line Tools
 - Homebrew + essential utilities (`git`, `bat`, `fzf`, `htop`, etc.)
-- Productivity tools (`iterm2`, `visual-studio-code`, `rectangle`, etc.)
+- Productivity tools (`iterm2`, `visual-studio-code`, `cursor`, `rectangle`, etc.)
+- Shared VS Code and Cursor settings, keybindings, and extension manifests
 - Developer setup (optional Zsh, dotfiles, and Python/Node environments)
 - Handles error handling for failed brew installs
 
@@ -18,8 +19,8 @@ This script installs and configures:
 
 1. **Clone this repo (or save the script):**
    ```bash
-   git clone https://github.com/sahilverma/mac-setup.git
-   cd mac-setup
+   git clone git@github.com:sverma25/mac_setup_scripts.git
+   cd mac_setup_scripts
    ```
 
 2. **Make the script executable:**
@@ -39,7 +40,7 @@ This script installs and configures:
 |------------------------------|------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|
 | **iTerm2**                   | After first launch                                               | Open **Preferences → Profiles → Colors**, and choose a font like **MesloLGS NF** for Powerlevel10k icons. |
 | **Chrome**                   | First launch                                                     | Sign in to sync bookmarks, extensions, and passwords.                                                  |
-| **VSCode**                   | After install                                                    | Sign in with **GitHub or Microsoft** to sync settings and extensions.                                  |
+| **VS Code / Cursor**         | After install                                                    | Run `./sync_editors.sh bootstrap`, then reload both editor windows.                                     |
 | **GitHub CLI (`gh`)**        | First time you run `gh auth login`                               | Run `gh auth login` and follow the prompts to authenticate with GitHub.                                |
 | **ChatGPT app**              | On launch                                                        | Log in with your **OpenAI account**.                                                                   |
 | **Spotify**                  | On launch                                                        | Sign in to your **Spotify account**.                                                                   |
@@ -51,3 +52,36 @@ This script installs and configures:
 
 - Drop your current `.zshrc` here so it can be integrated.
 - Add any custom brew formulas or Mac App Store installs if needed.
+
+## 🧩 Shared VS Code and Cursor configuration
+
+The `editor/` directory is the source of truth for both editors:
+
+- `settings.json` and `keybindings.json` are shared by symlinking both editors to these files.
+- `extensions.vscode.txt` and `extensions.cursor.txt` stay separate because the two marketplaces do not offer identical extensions.
+- MCP configuration and credentials are deliberately excluded.
+
+Bootstrap or repair the links and restore extensions:
+
+```bash
+./sync_editors.sh bootstrap
+```
+
+After changing settings in either editor, the Git-tracked shared file changes immediately. Refresh the extension manifests before committing changes:
+
+```bash
+./sync_editors.sh snapshot cursor
+./sync_editors.sh snapshot vscode
+git diff
+```
+
+Other useful commands:
+
+```bash
+./sync_editors.sh link
+./sync_editors.sh install-extensions
+./sync_editors.sh status
+```
+
+Existing local settings are moved to a timestamped backup under
+`~/.config-backups/editor-sync/` before the links are created.

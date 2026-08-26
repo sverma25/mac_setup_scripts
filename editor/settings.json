@@ -1,0 +1,96 @@
+{
+    "tabnine.experimentalAutoImports": true,
+    "terminal.integrated.fontFamily": "Meslo LG L DZ For Powerline",
+    "editor.bracketPairColorization.enabled": true,
+    "explorer.confirmDelete": false,
+    "diffEditor.ignoreTrimWhitespace": false,
+    "security.workspace.trust.untrustedFiles": "open",
+    "terminal.integrated.inheritEnv": false,
+    "editor.inlineSuggest.enabled": true,
+    "terminal.integrated.scrollback": 10000000,
+    "github.copilot.enable": {
+        "*": true,
+        "plaintext": true,
+        "markdown": false,
+        "scminput": false
+    },
+    "explorer.confirmDragAndDrop": false,
+    "workbench.colorCustomizations": {
+        "editorUnnecessaryCode.border": "#ff0000"
+    },
+    "timeline.excludeSources": [
+        "timeline.localHistory"
+    ],
+    "window.zoomLevel": -1,
+    "python.formatting.provider": "black",
+    "python.formatting.blackArgs": [
+        "--line-length=88"
+    ],
+    "python.linting.enabled": true,
+    "python.testing.pytestEnabled": true,
+    "workbench.sideBar.location": "right",
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit",
+            "source.unusedImports": "explicit",
+            "source.organizeImports.isort": "explicit"
+        }
+    },
+    "redhat.telemetry.enabled": true,
+    "editor.formatOnSave": true,
+    "isort.args": [
+        "--profile",
+        "black"
+    ],
+    "black-formatter.args": [
+        "--line-length",
+        "110"
+    ],
+    "flake8.enabled": true,
+    "flake8.args": [
+        "--max-line-length=110",
+        "--extend-ignore=E203,W503"
+    ],
+    "python.analysis.typeCheckingMode": "basic",
+    "python.analysis.diagnosticSeverityOverrides": {
+        "reportMissingTypeStubs": "none"
+    },
+    "mypy-type-checker.args": [
+        "--ignore-missing-imports"
+    ],
+    "python.testing.pytestArgs": [
+        "tests"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.unittestArgs": [
+        "-v",
+        "-s",
+        "./tests",
+        "-p",
+        "*test*.py"
+    ],
+    "diffEditor.hideUnchangedRegions.enabled": true,
+    "workbench.editor.empty.hint": "hidden",
+    "github.copilot.nextEditSuggestions.enabled": true,
+    "jupyter.askForKernelRestart": false,
+    "notebook.output.wordWrap": true,
+    "notebook.output.scrolling": true,
+    "powermode.presets": "clippy",
+    "powermode.combo.threshold": 10,
+    "powermode.shake.enabled": false,
+    "powermode.shake.intensity": 0,
+    "powermode.explosions.enabled": false,
+    "powermode.combo.counterEnabled": "show",
+    "vscode-pets.petColor": "warrior",
+    "vscode-pets.petSize": "medium",
+    "vscode-pets.petType": "cockatiel",
+    "vscode-pets.theme": "beach",
+    "vscode-pets.throwBallWithMouse": true,
+    "cursor.cpp.disabledLanguages": [
+        "markdown",
+        "scminput"
+    ],
+    "window.autoDetectColorScheme": true
+}

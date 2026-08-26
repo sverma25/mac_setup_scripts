@@ -80,6 +80,7 @@ EOF
 echo "🧰 Installing apps..."
 brew install --cask \
   visual-studio-code \
+  cursor \
   google-chrome \
   spotify \
   notion \
@@ -107,7 +108,13 @@ git config --global user.name "Sahil Verma"
 git config --global user.email "tosahilverma@gmail.com"
 
 # ---------------------------------------------------------
-# 7. Finalize
+# 7. Shared editor configuration
+# ---------------------------------------------------------
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+"$SCRIPT_DIR/sync_editors.sh" bootstrap
+
+# ---------------------------------------------------------
+# 8. Finalize
 # ---------------------------------------------------------
 echo "✨ Setup complete! Reloading Zsh..."
 exec zsh
