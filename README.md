@@ -40,7 +40,7 @@ This script installs and configures:
 |------------------------------|------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|
 | **iTerm2**                   | After first launch                                               | Open **Preferences → Profiles → Colors**, and choose a font like **MesloLGS NF** for Powerlevel10k icons. |
 | **Chrome**                   | First launch                                                     | Sign in to sync bookmarks, extensions, and passwords.                                                  |
-| **VS Code / Cursor**         | After install                                                    | Run `./sync_editors.sh bootstrap`, then reload both editor windows.                                     |
+| **VS Code / Cursor**         | After install                                                    | Run `./sync_editors.sh`, then reload both editor windows.                                               |
 | **GitHub CLI (`gh`)**        | First time you run `gh auth login`                               | Run `gh auth login` and follow the prompts to authenticate with GitHub.                                |
 | **ChatGPT app**              | On launch                                                        | Log in with your **OpenAI account**.                                                                   |
 | **Spotify**                  | On launch                                                        | Sign in to your **Spotify account**.                                                                   |
@@ -55,33 +55,20 @@ This script installs and configures:
 
 ## 🧩 Shared VS Code and Cursor configuration
 
-The `editor/` directory is the source of truth for both editors:
+The `editor/` directory is a portable bundle for both editors:
 
 - `settings.json` and `keybindings.json` are shared by symlinking both editors to these files.
 - `extensions.vscode.txt` and `extensions.cursor.txt` stay separate because the two marketplaces do not offer identical extensions.
 - MCP configuration and credentials are deliberately excluded.
 
-Bootstrap or repair the links and restore extensions:
+On a new Mac, clone or download this repository, install VS Code and Cursor,
+then run:
 
 ```bash
-./sync_editors.sh bootstrap
+./sync_editors.sh
 ```
 
-After changing settings in either editor, the Git-tracked shared file changes immediately. Refresh the extension manifests before committing changes:
-
-```bash
-./sync_editors.sh snapshot cursor
-./sync_editors.sh snapshot vscode
-git diff
-```
-
-Other useful commands:
-
-```bash
-./sync_editors.sh link
-./sync_editors.sh install-extensions
-./sync_editors.sh status
-```
-
-Existing local settings are moved to a timestamped backup under
-`~/.config-backups/editor-sync/` before the links are created.
+The script backs up existing settings under `~/.config-backups/editor-sync/`,
+links both editors to the shared configuration, and restores each editor's
+saved extensions. Because both editors use the same linked files, changing a
+setting or keybinding in either one updates the Git-tracked copy immediately.

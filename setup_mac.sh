@@ -111,7 +111,7 @@ git config --global user.email "tosahilverma@gmail.com"
 # 7. Shared editor configuration
 # ---------------------------------------------------------
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-"$SCRIPT_DIR/sync_editors.sh" bootstrap
+"$SCRIPT_DIR/sync_editors.sh"
 
 # ---------------------------------------------------------
 # 8. Finalize
