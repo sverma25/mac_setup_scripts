@@ -1,11 +1,25 @@
 #!/usr/bin/env bash
 # ----------------------------------------------------------
-# Mac Dev Setup Script — Sahil Verma
+# Mac Dev Setup Script
 # ----------------------------------------------------------
 
 # Fail fast and provide clear error messages
 set -euo pipefail
 trap 'echo "❌ Script failed at line $LINENO. Check the logs above for details."' ERR
+
+require_env() {
+  local variable="$1"
+
+  if [ -z "${!variable:-}" ]; then
+    echo "❌ Required environment variable $variable is not set." >&2
+    echo "See README.md for setup instructions." >&2
+    exit 1
+  fi
+}
+
+# Validate user-specific configuration before making any changes.
+require_env MAC_SETUP_GIT_NAME
+require_env MAC_SETUP_GIT_EMAIL
 
 echo "⚙️ Starting Mac setup..."
 xcode-select --install 2>/dev/null
@@ -104,8 +118,8 @@ conda install -y jupyterlab
 # 6. Git Configuration
 # ---------------------------------------------------------
 echo "🔧 Configuring Git..."
-git config --global user.name "Sahil Verma"
-git config --global user.email "tosahilverma@gmail.com"
+git config --global user.name "$MAC_SETUP_GIT_NAME"
+git config --global user.email "$MAC_SETUP_GIT_EMAIL"
 
 # ---------------------------------------------------------
 # 7. Shared editor configuration

@@ -1,74 +1,113 @@
-# 🧠 Mac Dev Setup — Sahil Verma
+# Mac development setup
 
-This setup script automates installation of my preferred tools on macOS.
+This repository provisions a new macOS development machine and keeps VS Code
+and Cursor configuration reproducible. User-specific Git identity is supplied
+at runtime and is never stored in the repository.
 
+## What it configures
 
-## ⚙️ Overview
+- Xcode Command Line Tools and Homebrew
+- Command-line development utilities
+- iTerm2, Oh My Zsh, Powerlevel10k, and Zsh plugins
+- VS Code, Cursor, and other desktop applications
+- Miniconda and JupyterLab
+- Global Git name and email from environment variables
+- Shared VS Code and Cursor settings, keybindings, and extensions
 
-This script installs and configures:
+## Instructions for a setup agent
 
-- Xcode Command Line Tools
-- Homebrew + essential utilities (`git`, `bat`, `fzf`, `htop`, etc.)
-- Productivity tools (`iterm2`, `visual-studio-code`, `cursor`, `rectangle`, etc.)
-- Shared VS Code and Cursor settings, keybindings, and extension manifests
-- Developer setup (optional Zsh, dotfiles, and Python/Node environments)
-- Handles error handling for failed brew installs
+When asked to set up a Mac from this repository, perform these steps in order:
 
+1. Confirm that the machine is running macOS and that the user understands the
+   script installs applications and changes shell, Git, and editor configuration.
+2. Obtain the Git author name and email that the user wants on new commits. Do
+   not guess them, print them in logs, or write them into repository files.
+3. Clone the repository and enter it:
 
-## 🚀 Usage
-
-1. **Clone this repo (or save the script):**
    ```bash
-   git clone git@github.com:sverma25/mac_setup_scripts.git
+   git clone https://github.com/sverma25/mac_setup_scripts.git
    cd mac_setup_scripts
    ```
 
-2. **Make the script executable:**
+4. Export the required values in the current shell, substituting the values
+   provided by the user:
+
    ```bash
-   chmod +x setup_mac.sh
+   export MAC_SETUP_GIT_NAME='<git author name>'
+   export MAC_SETUP_GIT_EMAIL='<git author email>'
    ```
 
-3. **Run the setup:**
+5. Review `setup_mac.sh` with the user if the machine already has customized
+   shell or editor configuration. Then run:
+
    ```bash
    ./setup_mac.sh
    ```
 
+6. Complete any interactive installers or sign-ins that require the user, then
+   run the verification commands below. Report failures instead of silently
+   skipping them.
 
-## 🧭 Post-Setup Guide: When and What to Do
+The script validates both required environment variables before changing the
+machine. They apply only to the current shell and are not persisted by this
+repository.
 
-| **App / Step**               | **When / Why**                                                   | **What to Do**                                                                                         |
-|------------------------------|------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|
-| **iTerm2**                   | After first launch                                               | Open **Preferences → Profiles → Colors**, and choose a font like **MesloLGS NF** for Powerlevel10k icons. |
-| **Chrome**                   | First launch                                                     | Sign in to sync bookmarks, extensions, and passwords.                                                  |
-| **VS Code / Cursor**         | After install                                                    | Run `./sync_editors.sh`, then reload both editor windows.                                               |
-| **GitHub CLI (`gh`)**        | First time you run `gh auth login`                               | Run `gh auth login` and follow the prompts to authenticate with GitHub.                                |
-| **ChatGPT app**              | On launch                                                        | Log in with your **OpenAI account**.                                                                   |
-| **Spotify**                  | On launch                                                        | Sign in to your **Spotify account**.                                                                   |
-| **Notion / Todoist / Granola** | On launch                                                      | Log in to sync your workspace.                                                                         |
-| **Powerlevel10k prompt**     | First time the terminal restarts                                 | If prompted, choose **“Use existing ~/.p10k.zsh”** during Powerlevel10k setup.                         |
+## Manual usage
 
+For a person running the setup directly, the minimal invocation is:
 
-## 📁 Next Steps
+```bash
+git clone https://github.com/sverma25/mac_setup_scripts.git
+cd mac_setup_scripts
+export MAC_SETUP_GIT_NAME='<git author name>'
+export MAC_SETUP_GIT_EMAIL='<git author email>'
+./setup_mac.sh
+```
 
-- Drop your current `.zshrc` here so it can be integrated.
-- Add any custom brew formulas or Mac App Store installs if needed.
+Use a GitHub-provided `noreply` address for `MAC_SETUP_GIT_EMAIL` if you do not
+want a personal email address attached to public commits.
 
-## 🧩 Shared VS Code and Cursor configuration
+## Editor configuration
 
 The `editor/` directory is a portable bundle for both editors:
 
-- `settings.json` and `keybindings.json` are shared by symlinking both editors to these files.
-- `extensions.vscode.txt` and `extensions.cursor.txt` stay separate because the two marketplaces do not offer identical extensions.
+- `settings.json` and `keybindings.json` are shared by symlinking both editors
+  to these files.
+- `extensions.vscode.txt` and `extensions.cursor.txt` stay separate because the
+  two marketplaces do not offer identical extensions.
 - MCP configuration and credentials are deliberately excluded.
 
-On a new Mac, clone or download this repository, install VS Code and Cursor,
-then run:
+To configure only the editors, run:
 
 ```bash
 ./sync_editors.sh
 ```
 
-The script backs up existing settings under `~/.config-backups/editor-sync/`,
-links both editors to the shared configuration, and restores each editor's
-saved extensions. Because both editors use the same linked files, changing a
-setting or keybinding in either one updates the Git-tracked copy immediately.
+`sync_editors.sh` backs up existing settings under
+`~/.config-backups/editor-sync/`, links both editors to the shared
+configuration, and restores each editor's saved extensions. Because both
+editors use the same linked files, changing a setting or keybinding in either
+one updates the Git-tracked copy immediately. Keep the cloned repository at a
+stable path so those links do not break.
+
+## Verification
+
+After the setup finishes, verify the automated portions:
+
+```bash
+brew --version
+git config --global --get user.name
+git config --global --get user.email
+code --list-extensions
+cursor --list-extensions
+```
+
+Then verify the remaining interactive setup:
+
+- Reload VS Code and Cursor and confirm settings and keybindings are present.
+- Open iTerm2 and confirm Powerlevel10k loads correctly.
+- Authenticate GitHub CLI with `gh auth login` if needed.
+- Sign in to applications whose data should sync.
+
+Credentials, tokens, MCP configuration, and application session data must not
+be committed to this repository.
